@@ -57,9 +57,9 @@ def blueInterruptHandler(pin):
         blueMsWait=time.ticks_ms()
         blueInterruptFlag=1   
 
-myRedButton.irq(trigger=Pin.IRQ_FALLING, handler=redInterruptHandler)
-myGreenButton.irq(trigger=Pin.IRQ_FALLING, handler=greenInterruptHandler)
-myBlueButton.irq(trigger=Pin.IRQ_FALLING, handler=blueInterruptHandler)
+myRedButton.irq(trigger=Pin.IRQ_RISING, handler=redInterruptHandler)
+myGreenButton.irq(trigger=Pin.IRQ_RISING, handler=greenInterruptHandler)
+myBlueButton.irq(trigger=Pin.IRQ_RISING, handler=blueInterruptHandler)
 
 ####################################################################
 #   setup function to clean up the code a little so a little function
