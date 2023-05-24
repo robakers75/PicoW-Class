@@ -1,0 +1,103 @@
+from machine import Pin
+import time
+#####################################################################
+#                  RGB Button Assignment
+#                       Lesson 18 
+#
+#  Script: This script will read the button and turn on the correct coller on the correct
+#          LED Light
+#
+#  Date: 05/23/2023
+#
+#  Enjoy, copy if you like
+#####################################################################
+redButtonPin=18
+greenButtonPin=17
+blueButtonPin=16
+#setup output LEDs
+redLEDPin=13
+greenLEDPin=14
+blueLEDPin=15
+
+
+myRedButton=Pin(redButtonPin,Pin.IN,Pin.PULL_UP)
+myGreenButton=Pin(greenButtonPin,Pin.IN,Pin.PULL_UP)
+myBlueButton=Pin(blueButtonPin,Pin.IN,Pin.PULL_UP)
+
+#ouput LED Definitions
+redLED=Pin(redLEDPin,Pin.OUT)
+greenLED=Pin(greenLEDPin,Pin.OUT)
+blueLED=Pin(blueLEDPin,Pin.OUT)
+      
+# The button read is very fast, so we have to slow down the read. So to do this we need to checck
+# the time and wait a few milliseconds
+redMsWait=0
+greenMsWait=0
+blueMsWait=0
+
+# trying to find a way to use interupts instead of sequential reads from each Pin
+
+redInterruptFlag=0
+greenInterruptFlag=0
+blueInterruptFlag=0
+
+def redCallBack(pin):
+    global redInterruptFlag, redMsWait
+    if ((time.ticks_ms()-redMsWait) > 500):
+        redMsWait=time.ticks_ms()
+        redInterruptFlag=1
+    
+def greenCallBack(pin):
+    global greenInterruptFlag,greenMsWait
+    if ((time.ticks_ms()-greenMsWait) > 500):
+        greenMsWait=time.ticks_ms()
+        greenInterruptFlag=1
+    
+def blueCallBack(pin):
+    global blueInterruptFlag,blueMsWait
+    if ((time.ticks_ms()-blueMsWait) > 500):
+        blueMsWait=time.ticks_ms()
+        blueInterruptFlag=1   
+
+myRedButton.irq(trigger=Pin.IRQ_FALLING, handler=redCallBack)
+myGreenButton.irq(trigger=Pin.IRQ_FALLING, handler=greenCallBack)
+myBlueButton.irq(trigger=Pin.IRQ_FALLING, handler=blueCallBack)
+
+####################################################################
+#   setup function to clean up the code a little so a little function
+#   to turn off or on all the lights
+####################################################################
+
+def set_all_lights():
+    redLED.value(0)
+    greenLED.value(0)
+    blueLED.value(0)
+####################################################################
+# Start Main loop
+####################################################################
+try:
+    ##BEgin While Loop
+    set_all_lights()
+    
+    while True:
+#Keep going until you are tired of watching, Start over when we have reached the maximum value
+        if redInterruptFlag is 1:
+            print("Red buttonState", redInterruptFlag)
+            redLED.toggle()
+            redInterruptFlag=0
+            
+        if greenInterruptFlag is 1:
+            print("Green buttonState", greenInterruptFlag)
+            greenLED.toggle()
+            greenInterruptFlag=0
+            
+        if blueInterruptFlag is 1:          
+            print("Blue buttonState", blueInterruptFlag)
+            blueLED.toggle()
+            blueInterruptFlag=0                       
+        
+    ##(END While)##
+            
+except KeyboardInterrupt:
+    print("Going Down")
+    set_all_lights()
