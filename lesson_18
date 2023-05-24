@@ -41,27 +41,27 @@ redInterruptFlag=0
 greenInterruptFlag=0
 blueInterruptFlag=0
 
-def redCallBack(pin):
+def redInterruptHandler(pin):
     global redInterruptFlag, redMsWait
     if ((time.ticks_ms()-redMsWait) > 500):
         redMsWait=time.ticks_ms()
         redInterruptFlag=1
     
-def greenCallBack(pin):
+def greenInterruptHandler(pin):
     global greenInterruptFlag,greenMsWait
     if ((time.ticks_ms()-greenMsWait) > 500):
         greenMsWait=time.ticks_ms()
         greenInterruptFlag=1
     
-def blueCallBack(pin):
+def blueInterruptHandler(pin):
     global blueInterruptFlag,blueMsWait
     if ((time.ticks_ms()-blueMsWait) > 500):
         blueMsWait=time.ticks_ms()
         blueInterruptFlag=1   
 
-myRedButton.irq(trigger=Pin.IRQ_FALLING, handler=redCallBack)
-myGreenButton.irq(trigger=Pin.IRQ_FALLING, handler=greenCallBack)
-myBlueButton.irq(trigger=Pin.IRQ_FALLING, handler=blueCallBack)
+myRedButton.irq(trigger=Pin.IRQ_FALLING, handler=redInterruptHandler)
+myGreenButton.irq(trigger=Pin.IRQ_FALLING, handler=greenInterruptHandler)
+myBlueButton.irq(trigger=Pin.IRQ_FALLING, handler=blueInterruptHandler)
 
 ####################################################################
 #   setup function to clean up the code a little so a little function
@@ -82,17 +82,17 @@ try:
     while True:
 #Keep going until you are tired of watching, Start over when we have reached the maximum value
         if redInterruptFlag is 1:
-            print("Red buttonState", redInterruptFlag)
+            print("Red Interrupt", redInterruptFlag)
             redLED.toggle()
             redInterruptFlag=0
             
         if greenInterruptFlag is 1:
-            print("Green buttonState", greenInterruptFlag)
+            print("green Interrupt", greenInterruptFlag)
             greenLED.toggle()
             greenInterruptFlag=0
             
         if blueInterruptFlag is 1:          
-            print("Blue buttonState", blueInterruptFlag)
+            print("blue Interrupt", blueInterruptFlag)
             blueLED.toggle()
             blueInterruptFlag=0                       
         
