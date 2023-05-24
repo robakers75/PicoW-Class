@@ -4,9 +4,7 @@ import time
 #                  RGB Button Assignment
 #                       Lesson 18 
 #
-#  Script: This script will read the button and turn on the correct coller on the correct
-#          LED Light
-#
+#  Script: This script will read the button and turn on the correct color based on the button that was pressed 
 #  Date: 05/23/2023
 #
 #  Enjoy, copy if you like
