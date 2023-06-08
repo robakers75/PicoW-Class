@@ -17,7 +17,7 @@ import array
 #####################################################################
 togglePin=15
 dataPin=16
-sensorPin= Pin(dataPin,Pin.OUT,Pin.PULL_UP)
+sensorPin= Pin(dataPin,Pin.OUT,Pin.PULL_DOWN)
 sensor=dht.DHT11(sensorPin)
 
 # Setup Array structures to hold the values from the sensor
